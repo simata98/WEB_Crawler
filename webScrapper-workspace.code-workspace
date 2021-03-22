@@ -1,0 +1,13 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "..\\..\\C_Practice"
+    }
+  ],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "vanila_JS"
+  }
+}
