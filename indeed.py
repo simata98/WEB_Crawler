@@ -6,7 +6,7 @@ LIMIT = 50
 URL = f"https://kr.indeed.com/jobs?q=python&limit={LIMIT}"
 
 
-def extract_indeed_pages():
+def get_last_page():
     result = requests.get(URL)
     # 어떤 형식으로 출력할 것인가
     soup = BeautifulSoup(result.text, "html.parser")
@@ -36,7 +36,7 @@ def extract_job(html):
     return {'title': title, 'company': company, 'location': location, "link": f"https://kr.indeed.com/채용보기?jk={job_id}"}
 
 
-def extract_indeed_jobs(last_page):
+def extract_jobs(last_page):
     jobs = []
     for page in range(last_page):
         print(f"{page}번째 페이지 scrapping 중")
@@ -46,4 +46,10 @@ def extract_indeed_jobs(last_page):
     for result in results:
         job = extract_job(result)
         jobs.append(job)
+    return jobs
+
+
+def get_jobs():
+    last_page = get_last_page()
+    jobs = extract_jobs(last_page)
     return jobs
