@@ -18,7 +18,6 @@ def get_last_page():
     pages = []
     for link in links[:-1]:
         pages.append(int(link.string))
-
     max_page = pages[-1]
     return max_page
 
@@ -39,7 +38,7 @@ def extract_job(html):
 def extract_jobs(last_page):
     jobs = []
     for page in range(last_page):
-        print(f"{page}번째 페이지 scrapping 중")
+        print(f"indeed {page}번째 페이지 scrapping 중")
         result = requests.get(f"{URL}&start={page*LIMIT}")
         soup = BeautifulSoup(result.text, "html.parser")
         results = soup.find_all("div", {"class": "jobsearch-SerpJobCard"})

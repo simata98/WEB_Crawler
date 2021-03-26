@@ -18,14 +18,16 @@ def extract_job(html):
     title = html.find("h2", {"class": "fs-body3"}).find("a")["title"]
     company, location = html.find(
         "h3", {"class", "fs-body1"}).find_all("span", recursive=False)  # span 안의 span을 찾지 않도록 설정
-    print(company, location)
-
-    return {"title": title}
+    company = company.get_text(strip=True)
+    location = location.get_text(strip=True).strip("\r").strip("\n")
+    job_id = html['data-jobid']
+    return {"title": title, "company": company, "location": location, "apply_link": f"https://stackoverflow.com/jobs/{job_id}"}
 
 
 def extract_jobs(last_page):
     jobs = []
     for page in range(last_page):
+        print(f"stackoverflow {page}번째 페이지 스크랩핑 중...")
         result = requests.get(f"{URL}&pg={page + 1}")
         soup = BeautifulSoup(result.text, "html.parser")
         results = soup.find_all("div", {"class": "-job"})
@@ -37,6 +39,6 @@ def extract_jobs(last_page):
 
 def get_jobs():
     # 여기 조절해서 더 찾을 수 있음
-    last_page = int(get_last_page() / 10)
+    last_page = int(get_last_page())
     jobs = extract_jobs(last_page)
     return jobs
